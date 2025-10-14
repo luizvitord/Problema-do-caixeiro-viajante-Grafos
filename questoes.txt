@@ -6,29 +6,41 @@ Orientador: Prof. Me Ricardo Carubbi
 Trabalho: Problema do Caixeiro Viajante
 
 Informe abaixo o(s) nome(s):
-- Aluno(a) 1: ______________________________
-- Aluno(a) 2: ______________________________
+- Aluno(a) 1: Gabriel Levi - 2320401
+- Aluno(a) 2: Luiz Vitor -
 
 Q1. Explique como você implementou a heurística de inserção pelo vizinho mais próximo.
 Comente também como você atualiza as ligações da lista encadeada circular após inserir o novo ponto.
 
 Resposta:
 
+A heurística de inserção pelo vizinho mais próximo foi implementada por um método que, para cada novo ponto,
+percorre todo o percurso existente na lista encadeada circular para encontrar o ponto já inserido com a menor distância.
+Uma vez que este "vizinho mais próximo" é identificado, o novo ponto é inserido imediatamente após ele.
+A atualização da lista é feita ajustando apenas dois ponteiros: o do novo nó, que passa a apontar para o sucessor
+original do vizinho, e o do vizinho, redirecionado para apontar para o novo nó,
+integrando-o eficientemente ao ciclo.
 
 Q2. Explique por que é melhor usar uma lista encadeada circular em vez de um vetor.
 Considere a complexidade das operações de inserção e remoção de pontos.
 
 Resposta:
 
+A utilização de uma lista encadeada circular é superior à de um vetor para este problema devido à complexidade da
+operação de inserção. Num vetor, inserir um ponto no meio do percurso exigiria o deslocamento de todos os elementos
+subsequentes, uma operação lenta de complexidade O(n). Em contrapartida, na lista encadeada, a inserção tem
+complexidade O(1), pois requer apenas a reatribuição de dois ponteiros, independentemente do tamanho do tour.
+Essa eficiência na inserção, junto da forma como a estrutura circular modela naturalmente o ciclo do caixeiro,
+torna a lista encadeada a escolha mais adequada.
 
 Q3. Preencha os comprimentos calculados pela heurística do vizinho mais próximo.
 
 | Arquivo de dados | Vizinho mais próximo |
 | ---------------- | -------------------- |
-| tsp10.txt        |                      |
-| tsp100.txt       |                      |
-| tsp1000.txt      |                      |
-| usa13509.txt     |                      |
+| tsp10.txt        |       1566.1363      |
+| tsp100.txt       |       7389.9297      |
+| tsp1000.txt      |       27868.7106     |
+| usa13509.txt     |       77449.9794     |
 
 Q4. Realize a análise de tempo abaixo:
 
@@ -38,14 +50,14 @@ Q4. Realize a análise de tempo abaixo:
 
 | n      | Tempo (s) ingênuo | Tempo (s) com KdTree |
 | ------ | ----------------- | -------------------- |
-| 1000   |                   |                      |
-| 2000   |                   |                      |
-| 4000   |                   |                      |
-| 8000   |                   |                      |
-| 16000  |                   |                      |
-| 32000  |                   |                      |
-| 64000  |                   |                      |
-| 128000 |                   |                      |
-| 256000 |                   |                      |
-| 512000 |                   |                      |
-| 1024000|                   |                      |
+| 1000   |      0.029        |        0.018         |
+| 2000   |      0.09         |        0.033         |
+| 4000   |      0.364        |        0.071         |
+| 8000   |      1.417        |        0.15          |
+| 16000  |      6.052        |        0.336         |
+| 32000  |      24.432       |        0.694         |
+| 64000  |      109.554      |        1.546         |
+| 128000 |      N/A          |        3.163         |
+| 256000 |      N/A          |        7.346         |
+| 512000 |      N/A          |        14.262        |
+| 1024000|      N/A          |        30.551        |

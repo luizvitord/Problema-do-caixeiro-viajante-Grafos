@@ -1,5 +1,8 @@
+import algs4.KdTree;
+import algs4.Point2D;
 import algs4.StdDraw;
 import algs4.StdOut;
+import java.util.HashMap; // Importa o HashMap
 
 public class Tour {
 
@@ -12,6 +15,9 @@ public class Tour {
     private int count;
     private final boolean useKdTree;
 
+    private KdTree kdTree;
+    private HashMap<Point2D, Node> nodeMap;
+
     public Tour() {
         this(false);
     }
@@ -20,14 +26,18 @@ public class Tour {
         this.useKdTree = useKdTree;
         this.start = null;
         this.count = 0;
+        if (useKdTree) {
+            this.kdTree = new KdTree();
+            this.nodeMap = new HashMap<>();
+        }
     }
 
     public Tour(Point a, Point b, Point c, Point d) {
         this();
-        insertNearestNaive(a);
-        insertNearestNaive(b);
-        insertNearestNaive(c);
-        insertNearestNaive(d);
+        insertNearest(a);
+        insertNearest(b);
+        insertNearest(c);
+        insertNearest(d);
     }
 
     public int size() {
@@ -47,6 +57,7 @@ public class Tour {
         return total;
     }
 
+    @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
         if (start == null)
@@ -74,7 +85,7 @@ public class Tour {
 
     public void insertNearest(Point p) {
         if (useKdTree) {
-            insertNearestKd(p); // ainda não implementado
+            insertNearestKd(p);
         } else {
             insertNearestNaive(p);
         }
@@ -84,7 +95,7 @@ public class Tour {
         Node newNode = new Node();
         newNode.point = p;
 
-        if (start == null) { // lista vazia
+        if (start == null) {
             start = newNode;
             newNode.next = newNode;
             count = 1;
@@ -95,7 +106,6 @@ public class Tour {
         Node nearestNode = start;
         double minDistance = p.distanceTo(current.point);
 
-        // percorre a lista para encontrar o ponto mais próximo de p
         do {
             double dist = p.distanceTo(current.point);
             if (dist < minDistance) {
@@ -105,30 +115,58 @@ public class Tour {
             current = current.next;
         } while (current != start);
 
-        // insere newNode após nearestNode
         newNode.next = nearestNode.next;
         nearestNode.next = newNode;
         count++;
     }
 
     public void insertNearestKd(Point p) {
-        throw new UnsupportedOperationException("Versão com lista não implementada.");
+        Node newNode = new Node();
+        newNode.point = p;
+        Point2D p2d = new Point2D(p.x(), p.y());
+
+        if (start == null) {
+            start = newNode;
+            newNode.next = newNode;
+        } else {
+            Point2D nearestP2d = kdTree.nearest(p2d);
+
+            Node nearestNode = nodeMap.get(nearestP2d);
+
+            newNode.next = nearestNode.next;
+            nearestNode.next = newNode;
+        }
+
+        count++;
+        kdTree.insert(p2d);
+        nodeMap.put(p2d, newNode);
     }
 
-    // Método de teste (opcional)
     public static void main(String[] args) {
-        Tour tour = new Tour();
-        tour.insertNearest(new Point(1.0, 1.0));
-        tour.insertNearest(new Point(1.0, 4.0));
-        tour.insertNearest(new Point(4.0, 4.0));
-        tour.insertNearest(new Point(4.0, 1.0));
+        Tour tourNaive = new Tour(false);
+        tourNaive.insertNearest(new Point(1.0, 1.0));
+        tourNaive.insertNearest(new Point(1.0, 4.0));
+        tourNaive.insertNearest(new Point(4.0, 4.0));
+        tourNaive.insertNearest(new Point(4.0, 1.0));
 
-        StdOut.println("# de pontos = " + tour.size());
-        StdOut.println("Comprimento = " + tour.length());
-        StdOut.println(tour);
+        StdOut.println("--- Versão Ingênua ---");
+        StdOut.println("# de pontos = " + tourNaive.size());
+        StdOut.println("Comprimento = " + tourNaive.length());
+        StdOut.println(tourNaive);
+
+        Tour tourKd = new Tour(true);
+        tourKd.insertNearest(new Point(1.0, 1.0));
+        tourKd.insertNearest(new Point(1.0, 4.0));
+        tourKd.insertNearest(new Point(4.0, 4.0));
+        tourKd.insertNearest(new Point(4.0, 1.0));
+
+        StdOut.println("\n--- Versão com KdTree ---");
+        StdOut.println("# de pontos = " + tourKd.size());
+        StdOut.println("Comprimento = " + tourKd.length());
+        StdOut.println(tourKd);
 
         StdDraw.setXscale(0, 6);
         StdDraw.setYscale(0, 6);
-        tour.draw();
+        tourKd.draw();
     }
 }

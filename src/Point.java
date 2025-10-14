@@ -24,6 +24,14 @@ public class Point {
         this.y = y;
     }
 
+    public double x() {
+        return this.x;
+    }
+
+    public double y() {
+        return this.y;
+    }
+
     // retorna a distância euclidiana entre dois pontos
     public double distanceTo(Point that) {
         double dx = this.x - that.x;
