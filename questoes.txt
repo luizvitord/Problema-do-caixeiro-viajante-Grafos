@@ -7,7 +7,7 @@ Trabalho: Problema do Caixeiro Viajante
 
 Informe abaixo o(s) nome(s):
 - Aluno(a) 1: Gabriel Levi - 2320401
-- Aluno(a) 2: Luiz Vitor -
+- Aluno(a) 2: Luiz Vitor - 2320410
 
 Q1. Explique como você implementou a heurística de inserção pelo vizinho mais próximo.
 Comente também como você atualiza as ligações da lista encadeada circular após inserir o novo ponto.
@@ -61,3 +61,5 @@ Q4. Realize a análise de tempo abaixo:
 | 256000 |      N/A          |        7.346         |
 | 512000 |      N/A          |        14.262        |
 | 1024000|      N/A          |        30.551        |
+| 2000000|      N/A          |        61.720        |
+| 2048000|      N/A          |        73.708        |
