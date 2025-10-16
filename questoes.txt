@@ -17,9 +17,15 @@ Resposta:
 A heurística de inserção pelo vizinho mais próximo foi implementada por um método que, para cada novo ponto,
 percorre todo o percurso existente na lista encadeada circular para encontrar o ponto já inserido com a menor distância.
 Uma vez que este "vizinho mais próximo" é identificado, o novo ponto é inserido imediatamente após ele.
+
+No caso base, quando a lista está vazia, o novo nó é criado de forma que seu ponteiro next aponta para ele mesmo,
+formando uma lista circular com um único elemento. O ponteiro de início da lista é atualizado para esse novo nó,
+garantindo a correta inicialização da estrutura circular.
+
 A atualização da lista é feita ajustando apenas dois ponteiros: o do novo nó, que passa a apontar para o sucessor
 original do vizinho, e o do vizinho, redirecionado para apontar para o novo nó,
 integrando-o eficientemente ao ciclo.
+
 
 Q2. Explique por que é melhor usar uma lista encadeada circular em vez de um vetor.
 Considere a complexidade das operações de inserção e remoção de pontos.
